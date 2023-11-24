@@ -1,0 +1,23 @@
+{
+    "name": "happycode/blueprint",
+    "authors": [
+        {
+            "name": "Paul Rooney",
+            "email": "paul@happycoder.co.uk"
+        }
+    ],
+    "description": "A Tool for Describing, Reading and Formatting Data.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "HappyCode\\Blueprint\\": "src/",
+            "HappyCode\\Test\\Blueprint\\Unit\\": "tests/Unit/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^10.4"
+    }
+}
