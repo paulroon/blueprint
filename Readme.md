@@ -82,18 +82,13 @@ will give you what you might imagine.
 
 nice! - lets go deeper. 
 
-### More
+### More Help
  
- - [Types](#types)
- - [Meta-data](#meta-data)
- - [Enum](#enum)
- - [DateTime](#datetime)
- - [ArrayOf](#arrayof)
- - [Non-Primitives](#non-primitives-custom-objects)
- - [Collections](#collections)
- - [Virtual Fields](#virtual-fields-transformations)
- - [Shorthand](#shorthand)
- - [IDE help](#ides-and-type-help)
+|   |   |                           |   |
+|---|---|---------------------------|---|
+|[Types](#types)   |[Non-Primitives](#non-primitives-custom-objects)   | [Meta-data](#meta-data)   |[Collections](#collections)  |
+|[Enum](#enum)   |[Virtual Fields](#virtual-fields-transformations)   | [DateTime](#datetime)     |[Shorthand](#shorthand)    |
+|[ArrayOf](#arrayof)   |[IDE help](#ides-and-type-help)   | [Exceptions](#exceptions) | |
 
 ### Types
 
@@ -372,6 +367,29 @@ Well that's pointless right?? - or is it?
     echo $spy->json(); // A string = {"fullName":"Bond, James Bond!"}
 ```
 *notice* how the rendered json does not include the hidden fields `first` and `last`
+
+### Exceptions
+During run-time `blueprint` will throw various Exceptions, In all cases they will extend the `HappyCode\Blueprint\Error\BlueprintError` Exception
+
+Wrapping the adapt method like the following is guaranteed to encapsulate all cases:
+```php
+try {
+    $user = $userSchema->adapt('{ "name": "Roger" }');
+} catch (\HappyCode\Blueprint\Error\BlueprintError $e) {
+    // handle this
+}
+```
+for more fine grain control
+```php
+try {
+    $user = $userSchema->adapt('{ "name": "Roger" }');
+} catch (\HappyCode\Blueprint\Error\BuildError $e) {
+    // Type Help code generator errors
+} catch (\HappyCode\Blueprint\Error\ValidationError $e) {
+    // Validation based issues while parsing the data
+    // $e->getMessage() - will be helpful
+}
+```
 
 ### IDE's and Type Help
 
