@@ -169,9 +169,7 @@ the defaults are
  Suppose we're looking at this kind of json
 ``` json
   {
-    ...
     "lotteryNumbers": [1,2,3,4,5,6]
-    ...
   }
 ```
 Because it can be described as 'an array of primitive types' we can model it like this... 
@@ -296,7 +294,7 @@ for example:
  "last": "Rabbit"
 }
 ```
-... don't you just with you had a `fullName` field in there. well...
+Don't you just wish you had a `fullName` field in there? well...
 ```php
     $rabbitSchema = Model::Define('Rabbit', [
           "first" => Type::String(isHidden: true),
