@@ -22,8 +22,16 @@ oh no, no, no, NO!!
 <!-- BLUEPRINT_START -->
 ## Blueprint
 
-Blueprint allows us to DEFINE the data we're expecting, like a table in a DB. We tell it the SCHEMA (the shape and types) of the JSON, 
-We tell it how to validate it, our rules not theirs, we filter out the stuff we won't want, and how to change the bits we won't like. 
+
+#### Tldr;
+ - Defines the shape of your data
+ - Validates input
+ - Applies Transformations
+ - Produces Access Objects (Models) the way you want them
+ - Renders back to your custom / desired json
+
+Blueprint allows us to **DEFINE** the data we're expecting, like a table in a DB. We tell it the **SCHEMA** (the shape and types) of the JSON, 
+We tell it how to **validate** it, our rules not theirs, we **filter** out the stuff we won't want, and how to change the bits we won't like. 
 
 Then we give it the data.
 
@@ -42,7 +50,7 @@ composer require happycode/blueprint
 <!-- USAGE_START -->
 ## Usage
 
-let's say we get this - it's in a variable called `$json`
+let's say we get this from a 3rd party API - it's in a variable called `$json`
 ``` json
   {
     "id": 1,
@@ -54,7 +62,6 @@ let's say we get this - it's in a variable called `$json`
 Let's try to define it. 
 ``` php
     use HappyCode\Blueprint\Model;
-    use HappyCode\Blueprint\Type;
 
     $userSchema = Model::Define('User', [
         "id" => 'integer',
