@@ -167,11 +167,11 @@ the defaults are
     "lotteryNumbers": [1,2,3,4,5,6]
   }
 ```
-Because it can be described as 'an array of primitive types' we can model it like this... 
+Because it can be described as **'an array of primitive types'** we can model it like this... 
 
 ```php
     $userSchema = Model::Define('User', [
-        "lotteryNumbers" => Type::ArrayOf(Type::Int(), isNullable: true),
+        "lotteryNumbers" => Type::ArrayOf(Type::Int()),
     ])
     // or with shorthand
     $userSchema = Model::Define('User', [
