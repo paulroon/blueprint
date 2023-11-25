@@ -197,8 +197,7 @@ We can create a custom (sub) Model on the fly
             Model::Define('GeoLocation', [
                   "lat" => Type::String(),
                   "long" => Type::String()
-            ]),
-            isNullable: true
+            ])
         ),
     ])
 ```
@@ -224,7 +223,7 @@ like...
           "long" => Type::String()
     ]);
     $deliverySchema = Model::Define('Delivery', [
-        "pickupLocation" => Type::Model($geoLocationSchema, isNullable: true),
+        "pickupLocation" => Type::Model($geoLocationSchema),
         "dropLocation" => Type::Model($geoLocationSchema),
     ])
 ```
@@ -242,7 +241,7 @@ Using the `$geoLocationSchema` from the custom object example (above)
     ]);
     
     $deliverySchema = Model::Define('Delivery', [
-        "journeyTracking" => Type::Collection($geoLocationSchema, isNullable: true),
+        "journeyTracking" => Type::Collection($geoLocationSchema),
     ])
 ```
 
