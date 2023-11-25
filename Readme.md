@@ -193,12 +193,10 @@ Yep nested structures can be typed too...
 Here's an example
 ``` json
   {
-    ...
     "geoLocation": {
       "lat": "84.9999572",
       "long": "-135.000413,21"
     }
-    ...
   }
 ```
 
