@@ -37,17 +37,17 @@ class Type
         return new static('float', isPrimitive: true, isArray: false, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden);
     }
 
+    public static function Boolean(bool $isRequired = true, bool $isHidden = false): static
+    {
+        return new static('boolean', isPrimitive: true, isArray: false, isNullable: false, isRequired: $isRequired, isHidden: $isHidden);
+    }
+
     public static function DateTime(bool $isNullable = false, bool $isRequired = true, bool $isHidden = false, string $inputFormat = 'd/m/Y H:i:s', ?string $outputFormat = null): static
     {
         if (!$outputFormat) {
             $outputFormat = $inputFormat;
         }
         return new static('datetime', isPrimitive: false, isArray: false, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden, inputFormat: $inputFormat, outputFormat: $outputFormat);
-    }
-
-    public static function Boolean(bool $isRequired = true, bool $isHidden = false): static
-    {
-        return new static('boolean', isPrimitive: true, isArray: false, isNullable: false, isRequired: $isRequired, isHidden: $isHidden);
     }
 
     public static function Enum(array $values, bool $isRequired = true, bool $isHidden = false): static
@@ -57,16 +57,11 @@ class Type
         );
     }
 
-    public function getEnumValues(): array
+    public static function ArrayOf(Type $type, bool $isNullable = false, bool $isRequired = true, bool $isHidden = false): static
     {
-        return $this->enumValues;
-    }
-
-    public static function Model(Model $model, bool $isNullable = false, bool $isRequired = true, bool $isHidden = false): static
-    {
-        return (new static($model->getModelName(),
-            isPrimitive: false, isArray: false, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden
-        ))->registerModel($model);
+        return (new static($type->getLabel(),
+            isPrimitive: false, isArray: true, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden
+        ));
     }
 
     /**
@@ -79,18 +74,23 @@ class Type
         ))->registerModel($model);
     }
 
-    public static function ArrayOf(Type $type, bool $isNullable = false, bool $isRequired = true, bool $isHidden = false): static
-    {
-        return (new static($type->getLabel(),
-            isPrimitive: false, isArray: true, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden
-        ));
-    }
-
     public static function Virtual(callable $fn): static
     {
         return (new static('string',
             isPrimitive: true, isArray: false, isNullable: true, isRequired: false, isVirtual: true, isHidden: false
         ))->registerTransformer($fn);
+    }
+
+    public function getEnumValues(): array
+    {
+        return $this->enumValues;
+    }
+
+    public static function Model(Model $model, bool $isNullable = false, bool $isRequired = true, bool $isHidden = false): static
+    {
+        return (new static($model->getModelName(),
+            isPrimitive: false, isArray: false, isNullable: $isNullable, isRequired: $isRequired, isHidden: $isHidden
+        ))->registerModel($model);
     }
 
     public function getLabel(): string
