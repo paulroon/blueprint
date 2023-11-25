@@ -195,7 +195,7 @@ Here's an example
   {
     ...
     "geoLocation": {
-      "lat": '84.9999572",
+      "lat": "84.9999572",
       "long": "-135.000413,21"
     }
     ...
@@ -223,11 +223,11 @@ although you could always make it more reusable should the schema need to repeat
   {
     ...
     "pickupLocation": {
-      "lat": '84.9999572",
+      "lat": "84.9999572",
       "long": "-135.000413,21"
     },
     "dropLocation": {
-      "lat": '49.4296032",
+      "lat": "49.4296032",
       "long": "0.737196,7"
     }
     ...
@@ -272,8 +272,8 @@ allows for json like
   {
     ...
     "journeyTracking": [
-       { "lat": '84.9999572", "long": "-135.000413,21" },
-       { "lat": '49.4296032", "long": "0.737196,7" },
+       { "lat": "84.9999572", "long": "-135.000413,21" },
+       { "lat": "49.4296032", "long": "0.737196,7" },
     ]
     ...
   }
