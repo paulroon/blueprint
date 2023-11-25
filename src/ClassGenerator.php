@@ -71,10 +71,10 @@ readonly class ClassGenerator
     private static function NamespaceToInstallDir(string $namespace): string
     {
         $namespace = rtrim($namespace, '\\');
-        $vendorLocation = implode(DIRECTORY_SEPARATOR, ['vendorx', 'happycode', 'blueprint', 'src']);
+        $vendorLocation = implode(DIRECTORY_SEPARATOR, ['vendor', 'happycode', 'blueprint', 'src']);
         $appRoot = dirname(__DIR__, count(explode(DIRECTORY_SEPARATOR, $vendorLocation)));
         $autoloadPath = $appRoot . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['vendor', 'composer', 'autoload_psr4.php']);
-
+print_r($autoloadPath);
         $autoload_psr4 = require $autoloadPath;
         if (!is_array($autoload_psr4)) {
             throw new BlueprintError('Invalid PSR-4 autoload configuration.');

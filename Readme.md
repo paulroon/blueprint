@@ -82,7 +82,7 @@ will give you what you might imagine.
 
 nice! - lets go deeper. 
 
-### Components
+### More
  
  - [Types](#types)
  - [Meta-data](#meta-data)
@@ -93,6 +93,7 @@ nice! - lets go deeper.
  - [Collections](#collections)
  - [Virtual Fields](#virtual-fields-transformations)
  - [Shorthand](#shorthand)
+ - [IDE help](#ides-and-type-help)
 
 ### Types
 
@@ -177,15 +178,11 @@ Because it can be described as 'an array of primitive types' we can model it lik
 
 ```php
     $userSchema = Model::Define('User', [
-        ...
         "lotteryNumbers" => Type::ArrayOf(Type::Int(), isNullable: true),
-        ...
     ])
     // or with shorthand
     $userSchema = Model::Define('User', [
-        ...
         "lotteryNumbers" => 'int[]'
-        ...
     ])
 ```
 ### Non-Primitives (Custom Objects)
@@ -203,7 +200,6 @@ Here's an example
 We can create a custom (sub) Model on the fly
 ```php
     $mapPinSchema = Model::Define('MapPin', [
-        ...
         "geoLocation" => Type::Model(
             Model::Define('GeoLocation', [
                   "lat" => Type::String(),
@@ -211,7 +207,6 @@ We can create a custom (sub) Model on the fly
             ]),
             isNullable: true
         ),
-        ...
     ])
 ```
 
@@ -219,7 +214,6 @@ although you could always make it more reusable should the schema need to repeat
 
 ``` json
   {
-    ...
     "pickupLocation": {
       "lat": "84.9999572",
       "long": "-135.000413,21"
@@ -228,7 +222,6 @@ although you could always make it more reusable should the schema need to repeat
       "lat": "49.4296032",
       "long": "0.737196,7"
     }
-    ...
   }
 ```
 like...
@@ -238,10 +231,8 @@ like...
           "long" => Type::String()
     ]);
     $deliverySchema = Model::Define('Delivery', [
-        ...
         "pickupLocation" => Type::Model($geoLocationSchema, isNullable: true),
         "dropLocation" => Type::Model($geoLocationSchema),
-        ...
     ])
 ```
 
@@ -258,9 +249,7 @@ Using the `$geoLocationSchema` from the custom object example (above)
     ]);
     
     $deliverySchema = Model::Define('Delivery', [
-        ...
         "journeyTracking" => Type::Collection($geoLocationSchema, isNullable: true),
-        ...
     ])
 ```
 
@@ -268,12 +257,10 @@ allows for json like
 
 ``` json
   {
-    ...
     "journeyTracking": [
        { "lat": "84.9999572", "long": "-135.000413,21" },
        { "lat": "49.4296032", "long": "0.737196,7" },
     ]
-    ...
   }
 ```
 
@@ -370,7 +357,7 @@ now this
 ```php
     $user = (Model::Define('User', ['name' => 'string']))->adapt('{ "name": "Roger" }');
 
-    echo $user->json(); // Roger
+    echo $user->json(); // { "name": "Roger" }
 ```
 
 Well that's pointless right?? - or is it?
@@ -386,10 +373,76 @@ Well that's pointless right?? - or is it?
 
     echo $spy->json(); // A string = {"fullName":"Bond, James Bond!"}
 ```
+*notice* how the rendered json does not include the hidden fields `first` and `last`
 
 ### IDE's and Type Help
-$model->json()
 
+When blueprint has parsed the input json (`$schema->adapt($json)`)) - you may notice a problem with the model. 
+
+Your IDE (PHPStorm / Visual Studio / Whatever) - is unable to provide any intellisense, this IS a problem!
+Due to the fact that the data models are created at runtime, your editor is unable to perform any static analysis on them. 
+This means you'll probably get some squiggly lines when you write perfectly legit code like `$model->getId()`.
+
+To fix this we have a solution - It's not **necessary** but we all like a squiggle free file right!
+
+On your Schema definition add `->setHelperNamespace(<NS>)` and provide a namespace for some TypeHelpers. 
+on the first run the adapter will generate a file for each model in your project. 
+
+The namespace you provide will map to a file path located in your project directory
+
+If your composer.json file has any `psr-4` mappings - it will obey these - otherwise the mapping will be from the project root. (Where the composer file lives)
+
+Example:
+
+```
+- /<project_root>
+  - /src
+    - index.php
+  - /lib
+   - helper.php
+ - composer.json
+```
+let's say you `composer.json` `autoload` settings look like.
+```json
+{
+ "autoload": {
+  "psr-4": {
+   "App\\": "src/"
+  }
+ }
+}
+```
+in your code
+```php
+    $userSchema = Model::Define('User', [
+        "name" => 'string',
+    ])->setHelperNamespace("App\TypeHintThing");
+
+    $user = $userSchema->adapt('{ "name": "Roger" }');
+```
+After the first time you run this - you'll notice one or more new files in your project
+
+
+```
+- /<project_root>
+    - /src
+        - index.php
+        - /TypeHintThing
+          - ...?
+          - UserModel.php
+    - /lib
+    - helper.php
+- composer.json
+```
+
+you can use this in your code to tell your IDE about the model Types.
+```php
+    /** @var \App\TypeHintThing\UserModel $user */
+    $user = $userSchema->adapt('{ "name": "Roger" }');
+```
+**Important Note**: 
+
+Once these files have been generated they will not be recreated - even if you update the schema, yuo should delete the helper files and allow them to be regenerated.
 
 <!-- USAGE_END -->
 
