@@ -84,11 +84,11 @@ nice! - lets go deeper.
 
 ### More Help
  
-|   |   |                           |   |
-|---|---|---------------------------|---|
-|[Types](#types)   |[Non-Primitives](#non-primitives-custom-objects)   | [Meta-data](#meta-data)   |[Collections](#collections)  |
-|[Enum](#enum)   |[Virtual Fields](#virtual-fields-transformations)   | [DateTime](#datetime)     |[Shorthand](#shorthand)    |
-|[ArrayOf](#arrayof)   |[IDE help](#ides-and-type-help)   | [Exceptions](#exceptions) | |
+|                                                   |                     |                           |                             |
+|---------------------------------------------------|---------------------|---------------------------|-----------------------------|
+| [Non-Primitives](#non-primitives-custom-objects)  | [Types](#types)     | [Meta-data](#meta-data)   | [Collections](#collections) |
+| [Virtual Fields](#virtual-fields-transformations) | [Enum](#enum)       | [DateTime](#datetime)     | [Shorthand](#shorthand)     |
+| [IDE help](#ides-and-type-help)                   | [ArrayOf](#arrayof) | [Exceptions](#exceptions) |                             |
 
 ### Types
 
